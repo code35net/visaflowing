@@ -19,7 +19,8 @@ export const environment = {
   production: false,
   application: {
     baseUrl,
-    name: 'VisaFlowing',
+    name: 'Visa Flow CRM',
+    logoUrl: 'assets/brand/visaflow-logo.png',
   },
   oAuthConfig,
   apis: {
