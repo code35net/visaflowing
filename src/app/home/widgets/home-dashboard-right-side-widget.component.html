@@ -1,0 +1,75 @@
+<div class="list-group list-group-flush">
+
+  <!-- Başlık -->
+  <div class="list-group-item bg-primary text-white py-3 rounded-top" style="border-radius: 12px 12px 0 0;">
+    <h5 class="mb-0 fw-bold text-center">{{ '::BasketsThisWeek' | abpLocalization }}</h5>
+  </div>
+
+  <!-- Yükleniyor -->
+  <div *ngIf="loading" class="p-4 text-center text-muted">
+    <i class="fa fa-spinner fa-spin me-2"></i>
+    {{ '::Loading' | abpLocalization }}
+  </div>
+
+  <!-- Sütun Başlıkları (Header) -->
+  <div
+    *ngIf="!loading && baskets.length > 0"
+    class="list-group-item px-3 py-2 bg-light border-bottom d-none d-md-flex fw-semibold text-muted small"
+  >
+    <div class="col-12 col-md-4">{{ '::Customer' | abpLocalization }}</div>
+    <div class="col-6 col-md-2 text-md-end">{{ '::PaymentSum' | abpLocalization }}</div>
+    <div class="col-6 col-md-2 text-md-end">{{ '::CollectionSum' | abpLocalization }}</div>
+    <div class="col-12 col-md-4 text-md-end">{{ '::PaymentDate' | abpLocalization }}</div>
+  </div>
+
+  <!-- Sepetler Listesi -->
+  <ng-container *ngIf="!loading && baskets.length > 0; else noBaskets">
+    <div
+      class="list-group-item p-3 border-bottom hover-bg-light"
+      *ngFor="let bas of baskets"
+    >
+      <div class="row g-2 align-items-center">
+
+        <!-- Müşteri -->
+        <div class="col-12 col-md-4">
+          <h6 class="mb-0 fw-semibold text-dark">
+            {{ bas.customer?.name.toUpperCase() }} {{ bas.customer?.surname.toUpperCase() }}
+          </h6>
+        </div>
+
+        <!-- Ödeme Tutarı -->
+        <div class="col-6 col-md-2 text-md-end">
+          <div class="fw-bold text-success">{{ bas.paymentSum | number:'1.2-2' }}</div>
+        </div>
+
+        <!-- Tahsilat Tutarı -->
+        <div class="col-6 col-md-2 text-md-end">
+          <div class="fw-bold text-danger">{{ bas.collectionSum | number:'1.2-2' }}</div>
+        </div>
+
+        <!-- Ödeme Tarihi -->
+        <div class="col-12 col-md-4 text-md-end">
+          <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2">
+            {{ bas.basket.paymentDate | date:'dd MMM yyyy' }}
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Sepet yoksa -->
+  <ng-template #noBaskets>
+    <div class="text-center text-muted p-4" *ngIf="!loading">
+      <i class="fa fa-shopping-basket fa-2x opacity-50 mb-2"></i>
+      <p class="mb-0">{{ '::NoBasketsThisWeek' | abpLocalization }}</p>
+    </div>
+  </ng-template>
+</div>
+
+<!-- Hover efekti (isteğe bağlı) -->
+<style>
+  .hover-bg-light:hover {
+    background-color: #f8f9fa;
+  }
+</style>

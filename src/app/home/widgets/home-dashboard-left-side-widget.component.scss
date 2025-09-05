@@ -1,0 +1,17 @@
+.list-group-item {
+    border-left: none;
+    border-right: none;
+  
+    &:first-child {
+      border-top: none;
+    }
+  
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+  }

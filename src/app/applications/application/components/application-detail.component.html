@@ -1,0 +1,308 @@
+<abp-modal [busy]="service.isBusy" [(visible)]="service.isVisible">
+  <ng-template #abpHeader>
+    <h3>{{ (service.selected ? 'AbpUi::Edit' : '::NewApplication') | abpLocalization }}</h3>
+  </ng-template>
+
+  <ng-template #abpBody>
+    <!-- ÖNEMLİ: abp-button formName ile eşleşir -->
+    <form
+      *ngIf="service.form"
+      [formGroup]="service.form"
+      id="application"
+      name="application"
+      (ngSubmit)="service.submitForm()"
+      autocomplete="off"
+    >
+      <!-- ============== RESERVATION MODE ============== -->
+      <ng-container *ngIf="service.reservationMode; else normalMode">
+        <div class="mt-3 mb-3">
+          <label class="form-label" for="application-reservation-date">
+            {{ '::ReservationDate' | abpLocalization }} *
+          </label>
+
+          <div class="input-group" validationTarget>
+            <input
+              id="application-reservation-date"
+              class="form-control"
+              formControlName="reservationDate"
+              ngbDatepicker
+              #reservationDateInput="ngbDatepicker"
+              [readonly]="true"
+              [minDate]="service.minReservationDate"
+              (click)="reservationDateInput.open()"
+              (keyup.space)="reservationDateInput.open()"
+            />
+            <!-- yazı ile değişmesin -->
+
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              (click)="reservationDateInput.open()"
+              [title]="'AbpUi::Open' | abpLocalization"
+            >
+              <i class="fa fa-calendar"></i>
+            </button>
+
+            <button
+              class="btn btn-link px-2"
+              type="button"
+              [title]="'AbpUi::Clear' | abpLocalization"
+              (click)="service.clearDate('reservationDate', reservationDateInput)"
+              *ngIf="service.form.get('reservationDate')?.value"
+            >
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
+
+          <abp-validation-summary controlName="reservationDate"></abp-validation-summary>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="application-reservation-time">
+            {{ '::ReservationTime' | abpLocalization }} *
+          </label>
+          <input
+            id="application-reservation-time"
+            type="time"
+            class="form-control"
+            formControlName="reservationTime"
+            step="60"
+            [attr.min]="service.minReservationTime || null"
+            required
+          />
+          <abp-validation-summary controlName="reservationTime"></abp-validation-summary>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="application-tracking-code">
+            {{ '::TrackingCode' | abpLocalization }} *
+          </label>
+          <input
+            id="application-tracking-code"
+            class="form-control"
+            formControlName="trackingCode"
+            required
+          />
+          <abp-validation-summary controlName="trackingCode"></abp-validation-summary>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="application-notes">
+            {{ '::Notes' | abpLocalization }}
+          </label>
+          <textarea
+            id="application-notes"
+            class="form-control"
+            rows="3"
+            formControlName="notes"
+          ></textarea>
+        </div>
+      </ng-container>
+
+      <!-- ============== NORMAL MODE ============== -->
+      <ng-template #normalMode>
+        <ul ngbNav #nav="ngbNav" class="nav nav-tabs" [(activeId)]="service.activeNavId">
+          <li [ngbNavItem]="'app'">
+            <a ngbNavLink>{{ '::Application' | abpLocalization }}</a>
+
+            <ng-template ngbNavContent>
+              <div class="p-3">
+
+                <!-- CREATE alanları -->
+                <div class="mb-3" *ngIf="!service.selected">
+                  <label class="form-label">{{ '::Customer' | abpLocalization }} *</label>
+                  <abp-lookup-typeahead
+                    cid="application-customer-id"
+                    formControlName="customerId"
+                    displayNameProp="displayName"
+                    [getFn]="service.getCustomerLookup"
+                    [editingData]="service.selected?.customer"
+                  ></abp-lookup-typeahead>
+                  <abp-validation-summary controlName="customerId"></abp-validation-summary>
+                </div>
+
+                <div class="mb-3" *ngIf="!service.selected">
+                  <label class="form-label">{{ '::Country' | abpLocalization }} *</label>
+                  <abp-lookup-select
+                    cid="application-country-id"
+                    formControlName="countryId"
+                    [getFn]="service.getCountryLookup"
+                  ></abp-lookup-select>
+                  <abp-validation-summary controlName="countryId"></abp-validation-summary>
+                </div>
+
+                <div class="mb-3" *ngIf="!service.selected">
+                  <label class="form-label">{{ '::Source' | abpLocalization }} *</label>
+                  <abp-lookup-input
+                    cid="application-source-id"
+                    formControlName="sourceId"
+                    displayNameProp="shortName"
+                    lookupNameProp="displayName"
+                    [getFn]="service.getSourceLookup"
+                    [editingData]="service.selected?.source"
+                  ></abp-lookup-input>
+                  <abp-validation-summary controlName="sourceId"></abp-validation-summary>
+                </div>
+
+                <div class="mb-3" *ngIf="!service.selected">
+                  <label class="form-label">{{ '::OutSource' | abpLocalization }} *</label>
+                  <abp-lookup-input
+                    cid="application-out-source-id"
+                    formControlName="outSourceId"
+                    displayNameProp="shortName"
+                    lookupNameProp="displayName"
+                    [getFn]="service.getOutSourceLookup"
+                    [editingData]="service.selected?.outSource"
+                  ></abp-lookup-input>
+                  <abp-validation-summary controlName="outSourceId"></abp-validation-summary>
+                </div>
+
+                <div class="mb-3" *ngIf="!service.selected">
+                  <label class="form-label">{{ '::Product' | abpLocalization }} *</label>
+                  <abp-lookup-input
+                    cid="application-main-product-id"
+                    formControlName="mainProductId"
+                    displayNameProp="shortName"
+                    lookupNameProp="displayName"
+                    [getFn]="service.getMainProductLookup"
+                    [editingData]="service.selected?.mainProduct"
+                  ></abp-lookup-input>
+                  <abp-validation-summary controlName="mainProductId"></abp-validation-summary>
+                </div>
+
+                <div class="form-check mb-3" *ngIf="!service.selected">
+                  <input
+                    type="checkbox"
+                    id="application-has-invoice"
+                    class="form-check-input"
+                    formControlName="hasInvoice"
+                  />
+                  <label for="application-has-invoice" class="form-check-label">
+                    {{ '::HasInvoice' | abpLocalization }}
+                  </label>
+                </div>
+
+                <div class="row g-3" *ngIf="!service.selected">
+                  <div class="col-md-6">
+                    <label class="form-label">{{ '::Currency' | abpLocalization }} *</label>
+                    <abp-lookup-select
+                      cid="application-currency-id"
+                      formControlName="currencyId"
+                      [getFn]="service.getCurrencyLookup"
+                    ></abp-lookup-select>
+                    <abp-validation-summary controlName="currencyId"></abp-validation-summary>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">{{ '::Amount' | abpLocalization }} *</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      formControlName="amount"
+                      min="0"
+                      step="0.01"
+                      required
+                    />
+                    <abp-validation-summary controlName="amount"></abp-validation-summary>
+                  </div>
+                </div>
+
+                <!-- EDIT alanları -->
+                <div class="mt-3 mb-3" *ngIf="!!service.selected">
+                  <label class="form-label" for="application-reservation-date-edit">
+                    {{ '::ReservationDate' | abpLocalization }}
+                  </label>
+                  <div class="input-group" validationTarget>
+                    <input
+                      id="application-reservation-date-edit"
+                      class="form-control"
+                      formControlName="reservationDate"
+                      ngbDatepicker
+                      #reservationDateEdit="ngbDatepicker"
+                      [readonly]="true"
+                      (click)="reservationDateEdit.open()"
+                      (keyup.space)="reservationDateEdit.open()"
+                    />
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      (click)="reservationDateEdit.open()"
+                    >
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                    <button
+                      class="btn btn-link px-2"
+                      type="button"
+                      [title]="'AbpUi::Clear' | abpLocalization"
+                      (click)="service.clearDate('reservationDate', reservationDateEdit)"
+                      *ngIf="service.form.get('reservationDate')?.value"
+                    >
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </div>
+                  <abp-validation-summary controlName="reservationDate"></abp-validation-summary>
+                </div>
+
+                <div class="mb-3" *ngIf="!!service.selected">
+                  <label class="form-label" for="application-reservation-time-edit">
+                    {{ '::ReservationTime' | abpLocalization }}
+                  </label>
+                  <input
+                    id="application-reservation-time-edit"
+                    type="time"
+                    class="form-control"
+                    formControlName="reservationTime"
+                    step="60"
+                  />
+                  <abp-validation-summary controlName="reservationTime"></abp-validation-summary>
+                </div>
+
+                <div class="mt-3 mb-3" *ngIf="!!service.selected">
+                  <label class="form-label" for="application-tracking-code-edit">
+                    {{ '::TrackingCode' | abpLocalization }}
+                  </label>
+                  <input
+                    id="application-tracking-code-edit"
+                    class="form-control"
+                    formControlName="trackingCode"
+                  />
+                  <abp-validation-summary controlName="trackingCode"></abp-validation-summary>
+                </div>
+
+                <div class="mb-3" *ngIf="!!service.selected">
+                  <label class="form-label" for="application-notes-edit">
+                    {{ '::Notes' | abpLocalization }}
+                  </label>
+                  <textarea
+                    id="application-notes-edit"
+                    class="form-control"
+                    rows="3"
+                    formControlName="notes"
+                  ></textarea>
+                  <abp-validation-summary controlName="notes"></abp-validation-summary>
+                </div>
+
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+
+        <div [ngbNavOutlet]="nav" class="mt-3"></div>
+      </ng-template>
+    </form>
+
+    <!-- form hazır değilse (beklenmeyen durum) basit bir uyarı göstermek istersen: -->
+    <div *ngIf="!service.form" class="text-muted px-3 py-4">
+      Form hazırlanıyor…
+    </div>
+  </ng-template>
+
+  <ng-template #abpFooter>
+    <button type="button" class="btn btn-secondary" abpClose>
+      {{ 'AbpUi::Cancel' | abpLocalization }}
+    </button>
+    <abp-button iconClass="fa fa-check" buttonType="submit" formName="application">
+      {{ 'AbpUi::Save' | abpLocalization }}
+    </abp-button>
+  </ng-template>
+</abp-modal>

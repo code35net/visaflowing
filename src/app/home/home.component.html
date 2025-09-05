@@ -1,0 +1,49 @@
+<div class="row mb-3">
+  <div class="col-xl-4 col-12 d-flex">
+
+    <div class="card h-lg-100 w-100 overflow-hidden" *ngIf="hasLoggedIn && isTenant" >
+      <div class="card-body">
+        <div class="starting-content pe-5">
+          <app-home-dashboard-left-side-widget></app-home-dashboard-left-side-widget>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <div class="col-xl-4 col-md-12" *ngIf="hasLoggedIn && isTenant" >
+    <div class="row">
+      <app-home-dashboard-middle-widget></app-home-dashboard-middle-widget>
+
+<!--      <div class="col-12 d-flex">-->
+<!--        <div class="card overflow-hidden mb-3">-->
+<!--          <div class="card-body d-flex flex-column">-->
+
+
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="col-12 d-flex">-->
+<!--        <div class="card h-md-100 overflow-hidden">-->
+<!--          <div class="card-body d-flex flex-column">-->
+
+<!--            -->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+    </div>
+  </div>
+
+  <div class="col-xl-4 col-md-12 d-flex" *ngIf="hasLoggedIn && isTenant" >
+    <div class="card h-100 overflow-hidden">
+      <div class="card-body">
+
+        <app-home-dashboard-right-side-widget></app-home-dashboard-right-side-widget>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

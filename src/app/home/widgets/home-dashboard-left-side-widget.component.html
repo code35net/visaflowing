@@ -1,0 +1,33 @@
+
+        <div class="list-group list-group-flush">
+
+          <div class="list-group-item bg-primary text-white py-3 rounded-top" style="border-radius: 12px 12px 0 0;">
+            <h5 class="mb-0 fw-bold text-center">{{ '::ApplicationsThisWeek' | abpLocalization }}</h5>
+          </div>
+
+          <div *ngIf="loading" class="p-4 text-center text-muted">
+            <i class="fa fa-spinner fa-spin me-2"></i> {{ '::Loading' | abpLocalization }}
+          </div>
+
+          <ng-container *ngIf="!loading && applications.length > 0; else noApplications">
+            <div
+              class="list-group-item d-flex justify-content-between align-items-center"
+              *ngFor="let app of applications"
+            >
+              <div>
+                <h6 class="mb-0"><b class="mb-0">{{ app.customerName.toUpperCase() + " " + app.customerSurname.toUpperCase() }}</b> </h6>
+                <small class="text-muted">
+                  {{ app.reservationDate | date:'EEE, dd MMM' }}
+                  &nbsp;•&nbsp;
+                  {{ app.reservationTime | slice:0:5 }}
+                </small>
+              </div>
+              <span class="badge bg-primary">{{ app.reservationDate | date:'EE' }}</span>
+            </div>
+          </ng-container>
+          <ng-template #noApplications>
+            <div class="text-center text-muted p-4" *ngIf="!loading">
+              {{ '::NoApplicationsThisWeek' | abpLocalization }}
+            </div>
+          </ng-template>
+        </div>

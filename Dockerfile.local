@@ -1,0 +1,30 @@
+# ---- build stage ----
+FROM node:20-alpine AS build
+WORKDIR /app
+
+# build context: repo kökü (../../)
+# angular klasöründeki package dosyalarını kopyala
+COPY angular/package*.json ./
+RUN npm ci
+
+# tüm angular kaynaklarını kopyala ve build et
+COPY angular/ ./
+# Prod veya dev hangisini istiyorsan:
+# ng 17+ builder'da çıktı genelde dist/<project> veya dist/<project>/browser
+RUN npm run build -- --configuration production
+
+# ---- runtime (nginx) ----
+FROM nginx:alpine
+# Çıktı yolu projene göre değişebilir. En yaygın iki ihtimal:
+# 1) dist/VisaFlowing
+# 2) dist/VisaFlowing/browser
+# Önce 1'i dene, 404 alırsan 2'yi kullan.
+COPY --from=build /app/dist/VisaFlowing /usr/share/nginx/html
+# Eğer senin Angular çıktı yolun /app/dist/VisaFlowing/browser ise:
+# COPY --from=build /app/dist/VisaFlowing/browser /usr/share/nginx/html
+
+# Nginx conf dosyan REPO’da angular/nginx.conf ise:
+COPY angular/nginx.conf /etc/nginx/conf.d/default.conf
+
+# dynamic-env’i image’a gömmek yerine compose ile volume bağlayacaksın;
+# o yüzden burada COPY ETME.
