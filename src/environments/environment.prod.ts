@@ -3,7 +3,7 @@ import { Environment } from '@abp/ng.core';
 const baseUrl = 'https://testapp.visaflow.tr';
 
 const oAuthConfig = {
-  issuer: 'https://testaputh.visaflow.tr/',
+  issuer: 'https://testauth.visaflow.tr/',
   redirectUri: baseUrl,
   clientId: 'VisaFlowing_App',
   responseType: 'code',
