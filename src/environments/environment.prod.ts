@@ -32,8 +32,8 @@ export const environment = {
       rootNamespace: 'AbpAccountPublic',
     },
   },
-  remoteEnv: {
-    url: '/getEnvConfig',
-    mergeStrategy: 'deepmerge'
-  }
+  // remoteEnv: {
+  //   url: '/getEnvConfig',
+  //   mergeStrategy: 'deepmerge'
+  // }
 } as Environment;
