@@ -1,15 +1,13 @@
-import type { CreateTransactionAmountCurrencyDto, CurrencyConvertDto, GetTransactionsInput, TransactionCreateDto, TransactionDto, TransactionExcelDownloadDto, TransactionUpdateDto, TransactionWithNavigationPropertiesDto } from './models';
+import type { CashboxSnapshotDto, CreateTransactionAmountCurrencyDto, CurrencyConvertDto, GetTransactionsInput, TransactionCreateDto, TransactionDto, TransactionExcelDownloadDto, TransactionUpdateDto, TransactionWithNavigationPropertiesDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import type { DownloadTokenResultDto, LookupDto, LookupRequestDto } from '../shared/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransactionService {
-  private restService = inject(RestService);
-
   apiName = 'Default';
   
 
@@ -92,6 +90,14 @@ export class TransactionService {
     { apiName: this.apiName,...config });
   
 
+  getCashboxSnapshot = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, CashboxSnapshotDto>({
+      method: 'GET',
+      url: '/api/app/transactions/cashbox-snapshot',
+    },
+    { apiName: this.apiName,...config });
+  
+
   getCurrencyLookup = (input: LookupRequestDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<LookupDto<string>>>({
       method: 'GET',
@@ -144,8 +150,5 @@ export class TransactionService {
     },
     { apiName: this.apiName,...config });
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
-  constructor() {}
+  constructor(private restService: RestService) {}
 }

@@ -3,6 +3,13 @@ import type { PaymentType } from './payment-type.enum';
 import type { BasketDto } from '../baskets/models';
 import type { CurrencyDto } from '../currencies/models';
 
+export interface CashboxSnapshotDto {
+  try: CurrencyTotalsByTypeDto;
+  usd: CurrencyTotalsByTypeDto;
+  eur: CurrencyTotalsByTypeDto;
+  gbp: CurrencyTotalsByTypeDto;
+}
+
 export interface CreateTransactionAmountCurrencyDto {
   amount: number;
   currencyId?: string;
@@ -12,6 +19,15 @@ export interface CurrencyConvertDto {
   sourceCurrencyId?: string;
   targetCurrencyId?: string;
   amount: number;
+}
+
+export interface CurrencyTotalsByTypeDto {
+  code?: string;
+  collection?: number;
+  payment?: number;
+  cost?: number;
+  exchange?: number;
+  net?: number;
 }
 
 export interface GetTransactionsInput extends GetTransactionsInputBase {

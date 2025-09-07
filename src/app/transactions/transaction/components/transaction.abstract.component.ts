@@ -27,6 +27,8 @@ export abstract class AbstractTransactionComponent implements OnInit {
   ngOnInit() {
     this.service.hookToQuery();
     this.checkActionButtonVisibility();
+    this.service.loadSnapshot();
+
   }
 
   clearFilters() {

@@ -1,14 +1,12 @@
 import type { GetVisaListInput, GetVisasInput, VisaCreateDto, VisaDto, VisaUpdateDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VisaService {
-  private restService = inject(RestService);
-
   apiName = 'Default';
   
 
@@ -63,8 +61,5 @@ export class VisaService {
     },
     { apiName: this.apiName,...config });
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
-  constructor() {}
+  constructor(private restService: RestService) {}
 }

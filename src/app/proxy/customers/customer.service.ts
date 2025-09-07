@@ -1,15 +1,13 @@
 import type { CustomerCreateDto, CustomerDto, CustomerExcelDownloadDto, CustomerUpdateDto, GetCustomersInput } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import type { DownloadTokenResultDto } from '../shared/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerService {
-  private restService = inject(RestService);
-
   apiName = 'Default';
   
 
@@ -91,8 +89,5 @@ export class CustomerService {
     },
     { apiName: this.apiName,...config });
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
-  constructor() {}
+  constructor(private restService: RestService) {}
 }

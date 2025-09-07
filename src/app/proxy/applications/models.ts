@@ -82,6 +82,8 @@ export interface ApplicationTenantDto {
   reservationTime?: string;
   tenantId?: string;
   tenantName?: string;
+  customerName?: string;
+  customerSurname?: string;
 }
 
 export interface ApplicationUpdateDto extends ApplicationUpdateDtoBase {

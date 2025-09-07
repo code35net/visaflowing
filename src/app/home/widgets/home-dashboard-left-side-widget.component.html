@@ -1,3 +1,4 @@
+<!-- LEFT WIDGET — TABLE VERSION -->
 <div class="card shadow-sm rounded-4 overflow-hidden mb-4">
   <div class="card-header py-3 text-white text-center section-title bg-gradient-primary">
     <h5 class="mb-0 fw-bold">{{ '::ApplicationsThisWeek' | abpLocalization }}</h5>
@@ -7,34 +8,43 @@
     <i class="fa fa-spinner fa-spin me-2"></i> {{ '::Loading' | abpLocalization }}
   </div>
 
-  <ul class="list-group list-group-flush" *ngIf="!loading">
-    <li
-      class="list-group-item d-flex align-items-center justify-content-between hover-bg-light"
-      *ngFor="let app of applications"
-    >
-      <div class="d-flex align-items-center gap-3">
-        <div class="avatar-initial bg-primary-soft text-primary fw-bold rounded-circle d-inline-flex align-items-center justify-content-center">
-          {{ (app.customerName?.slice(0,1) + (app.customerSurname?.slice(0,1) || '')).toUpperCase() }}
-        </div>
-        <div>
-          <div class="fw-semibold text-dark">
-            {{ app.customerName.toUpperCase() }} {{ app.customerSurname.toUpperCase() }}
-          </div>
-          <small class="text-muted">
-            {{ app.reservationDate | date:'EEE, dd MMM' }} &nbsp;•&nbsp; {{ app.reservationTime | slice:0:5 }}
-          </small>
-        </div>
-      </div>
+  <div class="table-responsive" *ngIf="!loading && applications.length > 0">
+    <table class="table table-modern align-middle table-hover mb-0">
+      <thead>
+      <tr>
+        <th class="w-35">{{ '::Customer' | abpLocalization }}</th>
+        <th class="text-end w-15">{{ '::ReservationDate' | abpLocalization }}</th>
+        <th class="text-end w-15">{{ '::ReservationTime' | abpLocalization }}</th>
+        <th class="text-end w-35">{{ '::Day' | abpLocalization }}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let app of applications">
+        <td class="fw-semibold text-dark">
+          {{ app.customerName?.toUpperCase() }} {{ app.customerSurname?.toUpperCase() }}
+        </td>
+        <td class="text-end">
+            <span class="badge badge-soft-primary">
+              {{ app.reservationDate | date:'dd MMM yyyy' }}
+            </span>
+        </td>
+        <td class="text-end">
+            <span class="badge badge-soft-success">
+              {{ app.reservationTime | slice:0:5 }}
+            </span>
+        </td>
+        <td class="text-end">
+            <span class="badge badge-soft-danger">
+              {{ app.reservationDate | date:'EE' }}
+            </span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
-      <span class="badge badge-soft-primary">
-        {{ app.reservationDate | date:'EE' }}
-      </span>
-    </li>
-
-    <li class="list-group-item text-center text-muted py-4" *ngIf="applications.length === 0">
-      {{ '::NoApplicationsThisWeek' | abpLocalization }}
-    </li>
-  </ul>
+  <div class="text-center text-muted p-4" *ngIf="!loading && applications.length === 0">
+    <i class="fa fa-calendar-day fa-2x opacity-50 mb-2"></i>
+    <p class="mb-0">{{ '::NoApplicationsThisWeek' | abpLocalization }}</p>
+  </div>
 </div>
-
-

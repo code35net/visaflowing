@@ -5,7 +5,7 @@ import { ABP, AbpWindowService, ListService, PagedResultDto } from '@abp/ng.core
 import { filter, switchMap, finalize } from 'rxjs/operators';
 import type {
   GetTransactionsInput,
-  TransactionWithNavigationPropertiesDto,
+  TransactionWithNavigationPropertiesDto, CashboxSnapshotDto
 } from '../../../proxy/transactions/models';
 import { TransactionService } from '../../../proxy/transactions/transaction.service';
 
@@ -22,12 +22,23 @@ export abstract class AbstractTransactionViewService {
     totalCount: 0,
   };
 
+  snapshot: CashboxSnapshotDto | null = null;
+  snapshotLoading = false;
+
   selectionType = SelectionType;
   selected = signal<TransactionWithNavigationPropertiesDto[]>([]);
   allSelected = signal(false);
   selectedCount = computed(() => this.selected().length);
 
   filters = {} as GetTransactionsInput;
+
+  loadSnapshot() {
+    this.snapshotLoading = true;
+    this.proxyService
+      .getCashboxSnapshot()
+      .pipe(finalize(() => (this.snapshotLoading = false)))
+      .subscribe(dto => (this.snapshot = dto));
+  }
 
   protected clearAllSelection() {
     this.selected.set([]);

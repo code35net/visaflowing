@@ -23,7 +23,7 @@
         <!-- <i class="fa fa-plus me-1" aria-hidden="true"></i> -->
         {{ '::CurrencyConvert' | abpLocalization }}
       </button>
-      
+
       <!-- <button
   *abpPermission="'VisaFlowing.Transactions.Create'"
   class="dropdown-item"
@@ -234,6 +234,91 @@
     }
   </abp-advanced-entity-filters>
   <!--<suite-custom-code-block-5>-->
+  <!-- ==== CASHBOX SNAPSHOT (TRY / USD / EUR / GBP) ==== -->
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center text-center">
+      <h2 class="card-title text-center">KASA</h2>
+    </div>
+    <div class="card-body">
+      <div class="row g-3 mb-3" *ngIf="service.snapshot as s">
+        <div class="col-12 col-sm-6 col-xl-3">
+          <div class="card shadow-sm border-0 text-white bg-primary">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <small class="text-white fw-semibold">TRY Net</small>
+                  <!-- Örnek: TRY -->
+                  <div class="h3 fw-bold mb-0">
+                    {{ service.snapshot?.try?.net | number:'1.2-2' }} <small>₺</small>
+                  </div>
+                  <!-- USD/EUR/GBP için de: snapshot?.usd?.net / snapshot?.eur?.net / snapshot?.gbp?.net -->
+
+                </div>
+                <i class="fa fa-wallet fa-lg opacity-75 text-light"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+          <div class="card shadow-sm border-0 text-white bg-success">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <small class="text-white fw-semibold">USD Net</small>
+                  <div class="h3 fw-bold mb-0 text-light">
+                    {{ service.snapshot?.usd?.net | number:'1.2-2' }} <small>$</small>
+
+                  </div>
+                </div>
+                <i class="fa fa-dollar-sign fa-lg opacity-75 text-light"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+          <div class="card shadow-sm border-0 bg-info">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <small class="text-light fw-semibold">EUR Net</small>
+                  <div class="h3 fw-bold mb-0 text-light">
+                    {{ service.snapshot?.eur?.net | number:'1.2-2' }} <small>€</small>
+
+                  </div>
+                </div>
+                <i class="fa fa-euro-sign fa-lg opacity-75 text-light"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+          <div class="card shadow-sm border-0 bg-warning">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <small class="text-light fw-semibold">GBP Net</small>
+                  <div class="h3 fw-bold mb-0 text-light">
+                    {{ service.snapshot?.gbp?.net | number:'1.2-2' }} <small>£</small>
+
+                  </div>
+                </div>
+                <i class="fa fa-sterling-sign fa-lg opacity-75 text-light"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- yükleme göstergesi (opsiyonel) -->
+  <div *ngIf="service.snapshotLoading" class="mb-3 text-muted">
+    <i class="fa fa-spinner fa-spin me-2"></i> {{ '::Loading' | abpLocalization }}
+  </div>
+
   <!--</suite-custom-code-block-5>-->
   <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
