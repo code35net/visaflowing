@@ -8,9 +8,12 @@ import type {
   GetBasketsInput
 } from '../../proxy/baskets';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class ApplicationTenantService {
-  private readonly restService = inject(RestService);
+  private restService = inject(RestService);
+
   apiName = 'Default';
 
   getApplicationsThisWeek = (config?: Partial<Rest.Config>) =>
@@ -21,36 +24,51 @@ export class ApplicationTenantService {
       },
       { apiName: this.apiName, ...config }
     );
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class CustomerBasketService {
-  private readonly restService = inject(RestService);
+  private restService = inject(RestService);
+
   apiName = 'Default';
 
-  getBasketsThisWeek = (config?: Partial<Rest.Config>) =>
-    this.restService.request<any, BasketWithNavigationPropertiesDto[]>(
-      {
+
+  getBasketsThisWeek = ( config?: Partial<Rest.Config>) =>
+    this.restService.request<any, BasketWithNavigationPropertiesDto[]>({
         method: 'GET',
         url: '/api/app/baskets/baskets-this-week',
       },
-      { apiName: this.apiName, ...config }
-    );
+      { apiName: this.apiName,...config });
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+
+  constructor() {}
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class AppBasketStatisticService {
-  private readonly restService = inject(RestService);
+  private restService = inject(RestService);
+
   apiName = 'Default';
 
-  getBasketsLastWeek = (config?: Partial<Rest.Config>) =>
-    this.restService.request<any, BasketWithNavigationPropertiesDto[]>(
-      {
+
+  getBasketsLastWeek = ( config?: Partial<Rest.Config>) =>
+    this.restService.request<any, BasketWithNavigationPropertiesDto[]>({
         method: 'GET',
         url: '/api/app/baskets/baskets-last-week',
       },
-      { apiName: this.apiName, ...config }
-    );
+      { apiName: this.apiName,...config });
 
   getApplicationsCompleteLastWeek = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, ApplicationTenantDto[]>(
@@ -60,4 +78,9 @@ export class AppBasketStatisticService {
       },
       { apiName: this.apiName, ...config }
     );
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }

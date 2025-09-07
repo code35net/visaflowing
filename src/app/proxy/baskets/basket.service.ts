@@ -1,13 +1,15 @@
 import type { BasketCreateDto, BasketDto, BasketExcelDownloadDto, BasketHasInvoiceUpdateDto, BasketIsIssuedUpdateDto, BasketPaymentUpdateDto, BasketUpdateDto, BasketWithNavigationPropertiesDto, GetBasketsInput } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import type { DownloadTokenResultDto, LookupDto, LookupRequestDto } from '../shared/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BasketService {
+  private restService = inject(RestService);
+
   apiName = 'Default';
   
 
@@ -149,5 +151,8 @@ export class BasketService {
     },
     { apiName: this.apiName,...config });
 
-  constructor(private restService: RestService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }

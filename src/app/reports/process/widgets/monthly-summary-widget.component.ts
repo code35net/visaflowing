@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportService } from '../../../proxy/report/report.service';
 import { DailySummaryDto } from '../../../proxy/reports/models';
@@ -23,6 +23,8 @@ import {
   templateUrl: './monthly-summary-widget.component.html',
 })
 export class MonthlySummaryWidgetComponent implements OnChanges {
+  private reportService = inject(ReportService);
+
   @Input() height = 300;
 
   tableData: DailySummaryDto[] = [];
@@ -47,9 +49,12 @@ export class MonthlySummaryWidgetComponent implements OnChanges {
   tooltip: ApexTooltip = { x: { format: 'yyyy-MM-dd' } };
   grid: ApexGrid = { strokeDashArray: 4, padding: { left: 12, right: 12 } };
   markers: ApexMarkers = { size: 0 };
-  colors: string[] = ['#4caf50', '#2196f3', '#ff9800']; // Yeni Kullanıcılar / Başvurular / Ödemeler
+  colors: string[] = ['#4caf50', '#2196f3', '#ff9800'];
 
-  constructor(private reportService: ReportService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]); // Yeni Kullanıcılar / Başvurular / Ödemeler
+
+  constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['height']) {

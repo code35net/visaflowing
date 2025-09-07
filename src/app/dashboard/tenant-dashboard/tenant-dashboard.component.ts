@@ -1,18 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MainBoardReportDto } from '../../proxy/reports/models';
-import { ReportService } from '../../proxy/reports/report.service';
+import { ReportService } from '../../proxy/report/report.service';
 
 @Component({
-  standalone: false,
+  standalone: true,
   selector: 'app-tenant-dashboard',
   templateUrl: './tenant-dashboard.component.html'
   
 })
 export class TenantDashboardComponent implements OnInit {
+  private reportService = inject(ReportService);
+
   reports: MainBoardReportDto[] = [];
   loading = true;
 
-  constructor(private reportService: ReportService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  
+
+  constructor() {}
 
   ngOnInit() {
     this.reportService.getMainBoardReport().subscribe({

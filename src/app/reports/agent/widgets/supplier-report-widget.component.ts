@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import {
@@ -28,11 +28,17 @@ export type ChartOptions = {
   imports: [CommonModule, NgApexchartsModule],
 })
 export class SupplierReportWidgetComponent {
+  private reportService = inject(ReportService);
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() height = 350;
 
   chartOptions: Partial<ChartOptions> = {};
 
-  constructor(private reportService: ReportService, private cdr: ChangeDetectorRef) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   draw({ startDate, endDate }: { startDate: string; endDate: string }) {
     this.reportService.getSupplierReport(startDate, endDate).subscribe((data: SupplierReportDto[]) => {

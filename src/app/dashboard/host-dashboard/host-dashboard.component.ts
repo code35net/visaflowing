@@ -1,22 +1,42 @@
 import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  NgbDateAdapter,
+  NgbDateNativeAdapter,
+  NgbDatepickerModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { LocalizationPipe, PermissionDirective } from '@abp/ng.core';
+import { PageComponent } from '@abp/ng.components/page';
+import { DateRangePickerComponent } from '@volo/abp.commercial.ng.ui';
 import {
   AverageExecutionDurationWidgetComponent,
   ErrorRateWidgetComponent,
 } from '@volo/abp.ng.audit-logging';
 import { EditionsUsageWidgetComponent, LatestTenantsWidgetComponent } from '@volo/abp.ng.saas';
-import { FormBuilder } from '@angular/forms';
-import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 const now = new Date();
 const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
 
 @Component({
-  
   selector: 'app-host-dashboard',
   templateUrl: './host-dashboard.component.html',
   styleUrls: ['./host-dashboard.component.scss'],
+  imports: [
+    AverageExecutionDurationWidgetComponent,
+    ErrorRateWidgetComponent,
+    EditionsUsageWidgetComponent,
+    LatestTenantsWidgetComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbDatepickerModule,
+    PageComponent,
+    DateRangePickerComponent,
+    PermissionDirective,
+    LocalizationPipe,
+  ],
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
 })
+
 export class HostDashboardComponent implements AfterViewInit {
   fb = inject(FormBuilder);
 
@@ -32,7 +52,7 @@ export class HostDashboardComponent implements AfterViewInit {
   @ViewChild('latestTenantsWidget', { static: false })
   latestTenantsWidget: LatestTenantsWidgetComponent;
 
-  toDate = now
+  toDate = now;
   fromDate = oneMonthAgo;
 
   formFilters = this.fb.group({
@@ -49,7 +69,7 @@ export class HostDashboardComponent implements AfterViewInit {
   }
 
   refresh() {
-    const {fromDate,toDate} = {
+    const { fromDate, toDate } = {
       ...this.formFilters.value.times,
     };
 
@@ -60,6 +80,7 @@ export class HostDashboardComponent implements AfterViewInit {
     this.editionsUsageWidget?.draw();
     this.latestTenantsWidget?.draw();
   }
+
   private convertToString(value: Date): string {
     return value.toLocalISOString();
   }

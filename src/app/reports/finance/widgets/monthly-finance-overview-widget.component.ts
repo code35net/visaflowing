@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportService } from '../../../proxy/report/report.service';
 import { MonthlyFinanceOverviewDto } from '../../../proxy/reports/models';
@@ -34,10 +34,15 @@ export type ChartOptions = {
   imports: [CommonModule,NgApexchartsModule],
 })
 export class MonthlyFinanceOverviewWidgetComponent {
+  private reportService = inject(ReportService);
+
   @Input() height = 350;
   chartOptions: Partial<ChartOptions>;
 
-  constructor(private reportService: ReportService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   draw({ startDate, endDate }: { startDate: string; endDate: string }) {
     this.reportService.getMonthlyFinanceOverview(startDate, endDate).subscribe((data: MonthlyFinanceOverviewDto[]) => {

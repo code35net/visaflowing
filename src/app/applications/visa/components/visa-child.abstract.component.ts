@@ -45,8 +45,8 @@ export abstract class AbstractVisaComponent implements OnInit {
       return;
     }
 
-    const canEdit = this.permissionService.getGrantedPolicy('VisaFlowApp.Visas.Edit');
-    const canDelete = this.permissionService.getGrantedPolicy('VisaFlowApp.Visas.Delete');
+    const canEdit = this.permissionService.getGrantedPolicy('VisaFlowing.Visas.Edit');
+    const canDelete = this.permissionService.getGrantedPolicy('VisaFlowing.Visas.Delete');
     this.isActionButtonVisible = canEdit || canDelete;
   }
 }

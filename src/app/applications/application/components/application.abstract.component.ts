@@ -63,7 +63,7 @@ export abstract class AbstractApplicationComponent implements OnInit {
   }
 
  updateReservation(record: ApplicationWithNavigationPropertiesDto) {
-  this.serviceDetail.openReservation(record); 
+  this.serviceDetail.openReservation(record);
 }
 
 
@@ -84,7 +84,7 @@ export abstract class AbstractApplicationComponent implements OnInit {
       return;
     }
 
-    const childPermissions = ['VisaFlowApp.Visas'];
+    const childPermissions = ['VisaFlowing.Visas'];
     this.isChildEntitiesPermitted = childPermissions.some(permission =>
       this.permissionService.getGrantedPolicy(permission),
     );
@@ -95,8 +95,8 @@ export abstract class AbstractApplicationComponent implements OnInit {
       return;
     }
 
-    const canEdit = this.permissionService.getGrantedPolicy('VisaFlowApp.Applications.Edit');
-    const canDelete = this.permissionService.getGrantedPolicy('VisaFlowApp.Applications.Delete');
+    const canEdit = this.permissionService.getGrantedPolicy('VisaFlowing.Applications.Edit');
+    const canDelete = this.permissionService.getGrantedPolicy('VisaFlowing.Applications.Delete');
     this.isActionButtonVisible = canEdit || canDelete;
   }
 
@@ -114,14 +114,14 @@ export abstract class AbstractApplicationComponent implements OnInit {
 
 
   public addAppVisas(row: ApplicationWithNavigationPropertiesDto) {
-  
-    
-    
+
+
+
   this.appVisasDetail.applicationId = row.application.id;
-  
+
   // Servisteki state’i sıfırla (zorunlu değil ama akışı sade tutar)
   this.appVisasDetail.selected = undefined;
-    
+
 
   // Modal açılırken buildForm() içinde applicationId set edilir,
   // mevcut kayıt varsa update, yoksa create akışı çalışır (servis içinde zaten yönetiliyor)

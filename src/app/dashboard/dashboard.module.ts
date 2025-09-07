@@ -12,7 +12,7 @@ import { TenantDashboardComponent } from './tenant-dashboard/tenant-dashboard.co
 import { DateRangePickerModule } from '@volo/abp.commercial.ng.ui';
 
 @NgModule({
-    declarations: [DashboardComponent, HostDashboardComponent, TenantDashboardComponent],
+    
   imports: [
     CommonModule,
     SharedModule,
@@ -21,7 +21,9 @@ import { DateRangePickerModule } from '@volo/abp.commercial.ng.ui';
     AuditLoggingModule,
     SaasModule,
     PageModule,
-    DateRangePickerModule
+    DateRangePickerModule,
+    DashboardComponent,
+    HostDashboardComponent, TenantDashboardComponent
   ],
 })
 export class DashboardModule {}

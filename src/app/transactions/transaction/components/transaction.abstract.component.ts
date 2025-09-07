@@ -64,8 +64,8 @@ export abstract class AbstractTransactionComponent implements OnInit {
       return;
     }
 
-    const canEdit = this.permissionService.getGrantedPolicy('VisaFlowApp.Transactions.Edit');
-    const canDelete = this.permissionService.getGrantedPolicy('VisaFlowApp.Transactions.Delete');
+    const canEdit = this.permissionService.getGrantedPolicy('VisaFlowing.Transactions.Edit');
+    const canDelete = this.permissionService.getGrantedPolicy('VisaFlowing.Transactions.Delete');
     this.isActionButtonVisible = canEdit || canDelete;
   }
 }

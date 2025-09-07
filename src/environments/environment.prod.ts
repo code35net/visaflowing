@@ -1,9 +1,9 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'https://testapp.visaflow.tr';
+const baseUrl = 'http://localhost:4200';
 
 const oAuthConfig = {
-  issuer: 'https://testauth.visaflow.tr/',
+  issuer: 'https://localhost:44343/',
   redirectUri: baseUrl,
   clientId: 'VisaFlowing_App',
   responseType: 'code',
@@ -19,13 +19,12 @@ export const environment = {
   production: true,
   application: {
     baseUrl,
-    name: 'Visa Flow CRM',
-    logoUrl: '../assets/brand/visaflow-logo.png',
+    name: 'VisaFlowing',
   },
   oAuthConfig,
   apis: {
     default: {
-      url: 'https://testapi.visaflow.tr',
+      url: 'https://localhost:44373',
       rootNamespace: 'CODE35.VisaFlowing',
     },
     AbpAccountPublic: {
@@ -33,8 +32,8 @@ export const environment = {
       rootNamespace: 'AbpAccountPublic',
     },
   },
-  // remoteEnv: {
-  //   url: '/getEnvConfig',
-  //   mergeStrategy: 'deepmerge'
-  // }
+  remoteEnv: {
+    url: '/getEnvConfig',
+    mergeStrategy: 'deepmerge'
+  }
 } as Environment;
