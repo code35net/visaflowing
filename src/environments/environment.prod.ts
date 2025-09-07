@@ -1,9 +1,9 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'http://localhost:4200';
+const baseUrl = 'https://testapp.visaflow.tr';
 
 const oAuthConfig = {
-  issuer: 'https://localhost:44343/',
+  issuer: 'https://testauth.visaflow.tr/',
   redirectUri: baseUrl,
   clientId: 'VisaFlowing_App',
   responseType: 'code',
@@ -24,7 +24,7 @@ export const environment = {
   oAuthConfig,
   apis: {
     default: {
-      url: 'https://localhost:44373',
+      url: 'https://testapi.visaflow.tr',
       rootNamespace: 'CODE35.VisaFlowing',
     },
     AbpAccountPublic: {
